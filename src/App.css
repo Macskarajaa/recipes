@@ -1,42 +1,196 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
+body{
+  background-image: url(assets/cover_small.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+*{
+  box-sizing: border-box;
+  margin: 0;
+}
+
+
+.recipe-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f9f9f9, #f0f0ff);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  font-family: 'Inter', sans-serif;
+}
+
+.recipe-card {
+  position: relative;
+  background: #fff;
   padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  max-width: 700px;
+  width: 100%;
+  transition: all 0.3s ease;
+}
+
+.recipe-card:hover {
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.15);
+}
+
+.close-btn {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  background: transparent;
+  border: none;
+  color: #777;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.close-btn:hover {
+  color: #000;
+}
+
+.form-title {
   text-align: center;
+  font-size: 1.8rem;
+  color: #333;
+  margin-bottom: 0.5rem;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.form-subtitle {
+  text-align: center;
+  color: #777;
+  margin-bottom: 2rem;
+  font-size: 0.9rem;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.recipe-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
-.card {
-  padding: 2em;
+.form-group label {
+  font-weight: 600;
+  color: #444;
+  font-size: 0.95rem;
 }
 
-.read-the-docs {
-  color: #888;
+.form-group input,
+.form-group textarea {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 0.95rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  border-color: #6b5bff;
+  box-shadow: 0 0 0 3px rgba(107, 91, 255, 0.2);
+  outline: none;
+}
+
+.ingredient-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.icon-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #666;
+  transition: color 0.2s ease;
+}
+
+.icon-btn:hover {
+  color: #d9534f;
+}
+
+.add-btn {
+  margin-top: 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #f8f8ff;
+  border: 1px dashed #aaa;
+  color: #555;
+  border-radius: 20px;
+  padding: 6px 12px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.add-btn:hover {
+  background: #efefff;
+  color: #333;
+}
+
+.preview-img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  margin-bottom: 0.5rem;
+}
+
+.no-preview {
+  color: #999;
+  font-size: 0.9rem;
+  text-align: center;
+  border: 1px dashed #ccc;
+  padding: 30px;
+  border-radius: 10px;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.cancel-btn,
+.save-btn {
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cancel-btn {
+  background: #f0f0f0;
+  color: #555;
+}
+
+.cancel-btn:hover {
+  background: #e5e5e5;
+}
+
+.save-btn {
+  background: #6b5bff;
+  color: #fff;
+}
+
+.save-btn:hover {
+  background: #5848e0;
+}
+
+.save-btn:disabled {
+  background: #bbb;
+  cursor: not-allowed;
 }
