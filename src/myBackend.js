@@ -21,6 +21,8 @@ const uploadToImgBB = async(file)=>{
     }
 }
 
+console.log(apiKey);
+
 export const addRecipe = async(recipe,file)=>{
     try {
         let imageUrl= ""
