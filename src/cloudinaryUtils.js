@@ -1,7 +1,9 @@
 import axios from "axios";
 import imageCompression from "browser-image-compression";
 
-const API_URL = "https://recipesbackend-theta.vercel.app/";
+
+const API_URL = "http://localhost:5000/api/"
+//const API_URL = "https://recipesbackend-theta.vercel.app";
 
 const convertToBase64 = (file) => {
   return new Promise((resolve, reject) => {

@@ -4,6 +4,7 @@ import { MyUserContext } from '../context/MyUserProvider'
 import { useState } from 'react'
 import { useNavigate } from 'react-router'
 import { IoMdClose } from "react-icons/io";
+import { updateAvatar } from '../myBackend'
 
 
 

@@ -6,6 +6,7 @@ import {
 import React, { useEffect, useState, createContext } from 'react'
 import { auth } from '../firebaseApp'
 import { deleteAvatar, updateAvatar  } from '../myBackend'
+import { uploadImage } from '../cloudinaryUtils'
 
 export const MyUserContext = createContext()
 
@@ -71,7 +72,9 @@ export const MyUserProvider = ({ children }) => {
 
   const avatarUpdate = async (file) => {
     try {
-      const uploadResult = await updateAvatar(file)
+      const uploadResult = await uploadImage(file)
+      console.log(uploadResult);
+      
       if (uploadResult?.url) {
         await updateProfile(auth.currentUser, { photoURL: uploadResult.url })
       }

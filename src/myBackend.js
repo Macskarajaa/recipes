@@ -88,6 +88,8 @@ export const updateRecipe=async (id,updatedData,file)=>{
 //új gyűjtemény az avatar public_id tárolására
 
 export const updateAvatar=async (uid, public_id)=>{
+    console.log(uid, public_id);
+    
     let oldPublicId = null
     try {
         const docRef=doc(db, "avatars", uid)
