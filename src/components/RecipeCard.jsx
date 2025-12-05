@@ -1,6 +1,11 @@
 import { MdDeleteForever, MdModeEditOutline } from "react-icons/md";
 import { deleteRecipe } from "../myBackend";
 import { useNavigate } from "react-router";
+import { useContext } from "react";
+import { MyUserContext } from "../context/MyUserProvider";
+
+
+
 
 export const RecipeCard = ({
   id,
@@ -10,7 +15,11 @@ export const RecipeCard = ({
   imageUrl,
   deleteUrl,
   category,
+  uid,
 }) => {
+
+const { user } = useContext(MyUserContext);
+  const canEdit = user && user.uid === uid;
   const navigate = useNavigate();
   const list = Array.isArray(ingredients) ? ingredients : [];
 
@@ -27,8 +36,9 @@ export const RecipeCard = ({
         </button>
 
         <button
+          disabled={!canEdit}
           className="rc-icon rc-delete"
-          onClick={() => deleteRecipe(id, deleteUrl)}
+          onClick={() =>canEdit &&  deleteRecipe(id, deleteUrl)}
           aria-label="Törlés"
           type="button"
         >

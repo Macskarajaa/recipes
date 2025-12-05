@@ -9,31 +9,34 @@ import { MyUserContext } from '../context/MyUserProvider';
 
 
 export const RecipesForm = () => {
-  const {user} = useContext(MyUserContext)
-  const [name,setName] = useState("");
-  const [ingredients,setIngredients] = useState([""]);
-  const [steps,setSteps] = useState("");
-  const [category,setCategory] = useState("");
-  const [file,setFile] = useState(null);
-  const [preview,setPreview] = useState(null);
-  const [loading,setLoading] = useState(false);
-  const [recipe,setRecipe] = useState(null)
+
+
+
+  const { user } = useContext(MyUserContext)
+  const [name, setName] = useState("");
+  const [ingredients, setIngredients] = useState([""]);
+  const [steps, setSteps] = useState("");
+  const [category, setCategory] = useState("");
+  const [file, setFile] = useState(null);
+  const [preview, setPreview] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [recipe, setRecipe] = useState(null)
   const navigate = useNavigate();
+  const [toast, setToast] = useState({ visible: false, text: "", type: "" });
 
 
-const [toast, setToast] = useState({ visible: false, text: "", type: "" });
 
-  const {id}=useParams()
-  id&&console.log(id);
+  const { id } = useParams()
+  id && console.log(id);
   console.log(recipe);
-  
-  useEffect(()=>{
-    if(id)
-      readRecipe(id,setRecipe)
-  },[id])
 
-  useEffect(()=>{
-    if(recipe){
+  useEffect(() => {
+    if (id)
+      readRecipe(id, setRecipe)
+  }, [id])
+
+  useEffect(() => {
+    if (recipe) {
       setName(recipe.name)
       setIngredients(recipe.ingredients)
       setCategory(recipe.category)
@@ -41,58 +44,66 @@ const [toast, setToast] = useState({ visible: false, text: "", type: "" });
       setPreview(recipe.imageUrl)
 
     }
-  },[recipe])
+  }, [recipe])
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  setLoading(true);
 
-  // ✅ Új recept → kötelező a kép
-  if (!id && !file) {
-    setLoading(false);
-    setToast({ visible: true, text: "Kép feltöltése kötelező!", type: "error" });
-    setTimeout(() => setToast(p => ({ ...p, visible: false })), 2000);
-    return;
-  }
 
-  // ✅ Update mód → meg kell várni a recept betöltését
-  if (id && !recipe) {
-    setLoading(false);
-    setToast({ visible: true, text: "Recept adatok még nem töltődtek be!", type: "error" });
-    setTimeout(() => setToast(p => ({ ...p, visible: false })), 2000);
-    return;
-  }
+  useEffect(() => {
+    if (id && recipe && user && recipe.uid !== user.uid) {
+      navigate("/recipes");
+    }
+  }, [id, recipe, user]);
 
-  try {
-    const inputData = { name, ingredients, steps, category, uid:user.uid, displayName:user.displayName};
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
 
-    if (id) {
-      // ✅ Ha nincs új file → file = null → backend megtartja régit
-      await updateRecipe(id,!file ?{...inputData,imageUrl:recipe.imageUrl,deleteUrl:recipe.deleteUrl}:inputData,file);
-    } else {
-      await addRecipe(inputData, file);
+    // ✅ Új recept → kötelező a kép
+    if (!id && !file) {
+      setLoading(false);
+      setToast({ visible: true, text: "Kép feltöltése kötelező!", type: "error" });
+      setTimeout(() => setToast(p => ({ ...p, visible: false })), 2000);
+      return;
     }
 
-    setToast({ visible: true, text: "Feltöltés sikeres!", type: "success" });
+    // ✅ Update mód → meg kell várni a recept betöltését
+    if (id && !recipe) {
+      setLoading(false);
+      setToast({ visible: true, text: "Recept adatok még nem töltődtek be!", type: "error" });
+      setTimeout(() => setToast(p => ({ ...p, visible: false })), 2000);
+      return;
+    }
 
-    setName("");
-    setIngredients([""]);
-    setSteps("");
-    setCategory("");
-    setFile(null);
-    setPreview(null);
+    try {
+      const inputData = { name, ingredients, steps, category, uid: user.uid, displayName: user.displayName };
 
-    navigate("/recipes");
+      if (id) {
+        // ✅ Ha nincs új file → file = null → backend megtartja régit
+        await updateRecipe(id, !file ? { ...inputData, imageUrl: recipe.imageUrl, deleteUrl: recipe.deleteUrl } : inputData, file);
+      } else {
+        await addRecipe(inputData, file);
+      }
 
-  } catch (error) {
-    console.error("Hiba:", error);
-    setToast({ visible: true, text: "Hiba történt a feltöltés során!", type: "error" });
+      setToast({ visible: true, text: "Feltöltés sikeres!", type: "success" });
 
-  } finally {
-    setLoading(false);
-    setTimeout(() => setToast(p => ({ ...p, visible: false })), 2000);
-  }
-};
+      setName("");
+      setIngredients([""]);
+      setSteps("");
+      setCategory("");
+      setFile(null);
+      setPreview(null);
+
+      navigate("/recipes");
+
+    } catch (error) {
+      console.error("Hiba:", error);
+      setToast({ visible: true, text: "Hiba történt a feltöltés során!", type: "error" });
+
+    } finally {
+      setLoading(false);
+      setTimeout(() => setToast(p => ({ ...p, visible: false })), 2000);
+    }
+  };
 
   const handleChangeIngredients = (index, value) => {
     const newIngredients = [...ingredients];
@@ -187,17 +198,17 @@ const handleSubmit = async (e) => {
       </form>
 
       {loading && <div className="loading-overlay">Loading…</div>}
-{toast.visible && (
-  <div className={`toast-message ${toast.type}`}>
-    {toast.text}
-  </div>
-)}
+      {toast.visible && (
+        <div className={`toast-message ${toast.type}`}>
+          {toast.text}
+        </div>
+      )}
       <IoClose
         onClick={() => navigate("/recipes")}
         className="close-icon"
         title="Vissza"
       />
     </div>
-    
+
   );
 };

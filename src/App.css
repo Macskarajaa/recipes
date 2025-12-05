@@ -944,7 +944,7 @@ transform: scale(1);
 .global-bg {
   position: fixed;
   inset: 0;
-  background-image: url("/your-background.jpg");
+  background-image: url(/src/assets/wadawdad-01.jpg);
   background-size: cover;
   background-position: center;
   transition: opacity 0.4s ease;

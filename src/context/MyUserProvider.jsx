@@ -29,8 +29,9 @@ export const MyUserProvider = ({ children }) => {
       await createUserWithEmailAndPassword(auth, email, password)
       await updateProfile(auth.currentUser, { displayName })
       await sendEmailVerification(auth.currentUser)
+      console.log("visszaigazolo email elkuldve");
 
-      setMsg({})
+       setMsg(prev=>({...prev},{signUp:"Kattints az email címben küldött linkre!"}))
       logOutUser()
     } catch(error) {
   console.log("SIGNUP ERROR:", error.code, error.message)
